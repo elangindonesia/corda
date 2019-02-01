@@ -5,7 +5,7 @@ import net.corda.core.messaging.startFlow
 import net.corda.core.utilities.contextLogger
 import net.corda.core.utilities.getOrThrow
 import net.corda.irs.api.NodeInterestRates
-import net.corda.irs.flows.UpdateBusinessDayFlow
+import net.corda.irs.workflows.testing.UpdateBusinessDayFlow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

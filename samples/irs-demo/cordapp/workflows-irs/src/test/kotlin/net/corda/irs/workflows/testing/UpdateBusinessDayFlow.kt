@@ -1,4 +1,4 @@
-package net.corda.irs.flows
+package net.corda.irs.workflows.testing
 
 import co.paralleluniverse.fibers.Suspendable
 import net.corda.core.flows.FlowLogic

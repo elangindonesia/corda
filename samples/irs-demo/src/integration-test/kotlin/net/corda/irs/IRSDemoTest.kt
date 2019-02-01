@@ -31,6 +31,9 @@ import net.corda.testing.driver.DriverParameters
 import net.corda.testing.http.HttpApi
 import net.corda.testing.node.NotarySpec
 import net.corda.testing.node.User
+import net.corda.testing.node.internal.FINANCE_CORDAPPS
+import net.corda.testing.node.internal.cordappWithPackages
+import net.corda.testing.node.internal.findCordapp
 import org.apache.commons.io.IOUtils
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -53,13 +56,13 @@ class IRSDemoTest {
         springDriver(DriverParameters(
                 useTestClock = true,
                 notarySpecs = listOf(NotarySpec(DUMMY_NOTARY_NAME, rpcUsers = rpcUsers)),
-                extraCordappPackagesToScan = listOf("net.corda.irs", "net.corda.finance", "migration")
+                cordappsForAllNodes = FINANCE_CORDAPPS + findCordapp("net.corda.irs.contract") + findCordapp("net.corda.irs.flows") + cordappWithPackages("net.corda.irs.workflows.testing")
         )) {
-            val (notary, nodeA, nodeB, controller) = listOf(
-                    defaultNotaryNode,
+            val (nodeA, nodeB, controller) = listOf(
                     startNode(providedName = DUMMY_BANK_A_NAME, rpcUsers = rpcUsers),
                     startNode(providedName = DUMMY_BANK_B_NAME, rpcUsers = rpcUsers),
-                    startNode(providedName = CordaX500Name("Regulator", "Moscow", "RU"))
+                    startNode(providedName = CordaX500Name("Regulator", "Moscow", "RU")),
+                    defaultNotaryNode
             ).map { it.getOrThrow() }
 
             log.info("All nodes started")
